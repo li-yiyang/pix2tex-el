@@ -16,6 +16,25 @@ However, currently, it depends macOS =screencapture=
 command (other system support will be consided if
 needed) and I think I'd only work on Emacs.
 
+** How to Use It?
+You'd need:
++ Python with [[https://github.com/lukas-blecher/LaTeX-OCR/][pix2tex]], [[https://github.com/tkf/python-epc][python-epc]]
+
+  #+begin_src shell
+    pip install pix2tex epc
+  #+end_src
++ Emacs [[https://github.com/kiwanami/emacs-epc][emacs-epc]]
+
+  #+begin_src elisp
+    (use-package epc)
+
+    (use-package pix2tex-el
+      :load-path "/path/to/pix2tex-el")
+  #+end_src
+
+Then all you need to do is to run =M-x pix2tex-el-insert=.
+(Or you could bind it to some key if you like).
+  
 * Current Status
 + only macOS
 + =epc:call-sync= only, which is not so pleasant
