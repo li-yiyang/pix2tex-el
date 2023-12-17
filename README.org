@@ -1,0 +1,26 @@
+#+title: PIX2TEX-EL
+#+author: ryo
+* About
+#+name: demo-gif
+[[./res/demo.gif]]
+
+If you are still coping LaTeX formula from textbook...
+Or if you're just tired like me with so much type,
+type, and type work. Please try OCR LaTeX in Emacs.
+
+This project is based on [[https://github.com/lukas-blecher/LaTeX-OCR/][lukas-blecher/LaTeX-OCR]] work
+and [[https://github.com/kiwanami/emacs-epc][kiwanami/emacs-epc]] work. In theory, it should
+be applied into any platform and editors.
+
+However, currently, it depends macOS =screencapture=
+command (other system support will be consided if
+needed) and I think I'd only work on Emacs.
+
+* Current Status
++ only macOS
++ =epc:call-sync= only, which is not so pleasant
+
+* TODO Future Works
++ =epc:call-deferred= to support async calling
++ linux support
++ formatted LaTeX ouput (?)
