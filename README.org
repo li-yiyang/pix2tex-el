@@ -29,7 +29,12 @@ You'd need:
     (use-package epc)
 
     (use-package pix2tex-el
-      :load-path "/path/to/pix2tex-el")
+      :load-path "/path/to/pix2tex-el"
+      :config
+      (add-hook 'org-mode-hook
+                (lambda ()
+                  (add-hook 'pix2tex-el-insert-hook
+                            #'org-latex-preview 0 nil)))
   #+end_src
 
 Then all you need to do is to run =M-x pix2tex-el-insert=.
@@ -37,9 +42,10 @@ Then all you need to do is to run =M-x pix2tex-el-insert=.
   
 * Current Status
 + only macOS
-+ =epc:call-sync= only, which is not so pleasant
++ =epc:call-deferred= support (only), but little tricky
+  implementation.
 
 * TODO Future Works
-+ =epc:call-deferred= to support async calling
-+ linux support
-+ formatted LaTeX ouput (?)
++ [x] =epc:call-deferred= to support async calling
++ [ ] linux support
++ [ ] formatted LaTeX ouput (?)

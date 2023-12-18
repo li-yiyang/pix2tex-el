@@ -80,8 +80,8 @@
                            (save-excursion
                              ;; NOTE: This is hacky! need improving...
                              (goto-char ,insert-position)
-                             (insert (format "\\(%s\\)" latex))
-                             (run-hooks pix2tex-el-insert-hook)))))))
+                             (insert-before-markers (format "\\(%s\\)" latex))
+                             (run-hooks 'pix2tex-el-insert-hook)))))))
 
 (provide 'pix2tex-el)
 ;;; pix2tex-el.el ends here
