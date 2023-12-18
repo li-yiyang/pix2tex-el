@@ -5,6 +5,10 @@
 ;;; Code:
 (require 'epc)
 
+;; Hooks
+(defvar pix2tex-el-insert-hook nil
+  "Hook that triggered after the formula is inserted.")
+
 ;; Screencapture
 (defvar pix2tex-el-screencapture-command
   (cond ((eq system-type 'darwin) "screencapture"))
@@ -56,17 +60,28 @@
   (unless (epc:live-p pix2tex-el-server-process)
     (pix2tex-el--start-process)))
 
-;; I want to make it into async, but maybe later
+;; this function is not used yet...
 (defun pix2tex-el-ocr-clipboard ()
   "Interactively OCR screen into clipboard and OCR it."
   (pix2tex-el--screencapture-to-clipboard)
   (pix2tex-el--ensure-process)
   (epc:call-sync pix2tex-el-server-process 'clipboard nil))
 
+;; it's now async, but may not be so flexible
 (defun pix2tex-el-insert ()
   "Take screencapture and insert it at point."
   (interactive)
-  (insert (format "\\(%s\\)" (pix2tex-el-ocr-clipboard))))
+  (pix2tex-el--screencapture-to-clipboard)
+  (pix2tex-el--ensure-process)
+  (let ((insert-position (point)))
+    (deferred:$
+     (epc:call-deferred pix2tex-el-server-process 'clipboard nil)
+     (deferred:nextc it `(lambda (latex)
+                           (save-excursion
+                             ;; NOTE: This is hacky! need improving...
+                             (goto-char ,insert-position)
+                             (insert (format "\\(%s\\)" latex))
+                             (run-hooks pix2tex-el-insert-hook)))))))
 
 (provide 'pix2tex-el)
 ;;; pix2tex-el.el ends here
